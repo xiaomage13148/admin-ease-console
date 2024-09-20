@@ -2,6 +2,9 @@
 import {ref} from 'vue';
 import type {LoginData} from '@/api/auth';
 
+// 导入 login.scss 文件
+import '@/styles/login.scss';
+
 const logo = ref(new URL(`../../assets/logo.png`, import.meta.url).href);
 const loginImage = ref(new URL(`../../assets/images/login-image.svg`, import.meta.url).href);
 
