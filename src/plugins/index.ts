@@ -1,6 +1,7 @@
 import type {App} from 'vue';
 import {setupRouter} from '@/router';
 import {setupStore} from '@/stores';
+import {setupI18n} from '@/lang';
 
 export default {
     install(app: App<Element>) {
@@ -8,5 +9,7 @@ export default {
         setupRouter(app);
         // 状态关联 store
         setupStore(app);
+        // 国际化 i18n
+        setupI18n(app);
     },
 };
