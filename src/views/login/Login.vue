@@ -177,20 +177,20 @@ const loginData = ref<LoginData>({
             </div>
         </div>
 
-        <!-- ICP备案 -->
-        <div class="absolute bottom-0 w-full text-center text-12px">
-            <p>
-                Copyright © 2021 - 2024 youlai.tech All Rights Reserved.
-                <a
-                    href="http://beian.miit.gov.cn/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="hover:underline"
-                >
-                    皖ICP备20006496号-2
-                </a>
-            </p>
-        </div>
+<!--        &lt;!&ndash; ICP备案 &ndash;&gt;-->
+<!--        <div class="absolute bottom-0 w-full text-center text-12px">-->
+<!--            <p>-->
+<!--                Copyright © 2021 - 2024 youlai.tech All Rights Reserved.-->
+<!--                <a-->
+<!--                    href="http://beian.miit.gov.cn/"-->
+<!--                    target="_blank"-->
+<!--                    rel="noopener noreferrer"-->
+<!--                    class="hover:underline"-->
+<!--                >-->
+<!--                    皖ICP备20006496号-2-->
+<!--                </a>-->
+<!--            </p>-->
+<!--        </div>-->
     </div>
 </template>
 

@@ -2,6 +2,7 @@ import type {App} from 'vue';
 import {setupRouter} from '@/router';
 import {setupStore} from '@/stores';
 import {setupI18n} from '@/lang';
+import {setupElIcons} from '@/plugins/icons';
 
 export default {
     install(app: App<Element>) {
@@ -11,5 +12,7 @@ export default {
         setupStore(app);
         // 国际化 i18n
         setupI18n(app);
+        // element plus icon
+        setupElIcons(app);
     },
 };

@@ -4,7 +4,6 @@ import {RouterView} from 'vue-router';
 </script>
 
 <template>
-    <!--  :locale="locale" :size="size"  -->
     <el-config-provider>
         <RouterView/>
     </el-config-provider>
