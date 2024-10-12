@@ -1,7 +1,6 @@
 import enLocale from './package/en';
 import zhCnLocale from '@/lang/package/zh-cn';
 import {createI18n} from 'vue-i18n';
-import type {LocaleMessages} from '@/api/lang';
 import type {App} from 'vue';
 
 const locale: string = 'zh-cn';

@@ -1,5 +1,3 @@
-import type {LocaleMessages} from '@/api/lang';
-
 const enLocale: LocaleMessages = {
     // 路由国际化
     route: {
