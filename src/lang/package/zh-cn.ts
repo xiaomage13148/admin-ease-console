@@ -1,4 +1,5 @@
 const zhCnLocale: LocaleMessages = {
+    title: '简易管理',
     // 路由国际化
     route: {
         dashboard: '首页',

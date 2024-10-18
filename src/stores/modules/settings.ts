@@ -17,10 +17,15 @@ export const useSettingsStore = defineStore('setting', () => {
         ([newTheme, newThemeColor]) => {
             toggleDarkMode(newTheme === ThemeEnum.DARK);
         },
-        {immediate: true}
+        {immediate: true},
     );
 
-    return {
-        themeColor , theme
+
+    function changeTheme(val: string) {
+        theme.value = val;
     }
+
+    return {
+        themeColor, theme, changeTheme,
+    };
 });

@@ -1,4 +1,5 @@
 const enLocale: LocaleMessages = {
+    title: 'Admin-Ease',
     // 路由国际化
     route: {
         dashboard: 'Dashboard',
