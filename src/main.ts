@@ -9,7 +9,6 @@ import 'virtual:svg-icons-register';
 
 // 样式
 import 'element-plus/theme-chalk/dark/css-vars.css';
-import 'element-plus/dist/index.css';
 import 'uno.css';
 import 'animate.css';
 import '@/styles/index.scss';
