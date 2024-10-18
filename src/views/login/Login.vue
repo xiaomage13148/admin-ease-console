@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {ref} from 'vue';
 import type {LoginData} from '@/api/auth';
 // 导入 login.scss 文件
 import '@/styles/login.scss';
@@ -7,6 +6,8 @@ import {useSettingsStore} from '@/stores';
 import {ThemeEnum} from '@/enums/ThemeEnum';
 
 const settingsStore = useSettingsStore();
+const {t} = useI18n();
+
 const logo = ref(new URL(`../../assets/logo.png`, import.meta.url).href);
 const loginImage = ref(new URL(`../../assets/images/login-image.svg`, import.meta.url).href);
 // 是否大写锁定
@@ -18,6 +19,31 @@ const loginData = ref<LoginData>({
 });
 // 深色模式
 const isDark = ref(settingsStore.theme === ThemeEnum.DARK);
+
+// 校验规则
+const loginRules = computed(() => {
+    return {
+        username: [
+            {
+                required: true,
+                trigger: 'blur',
+                message: t('login.message.username.required'),
+            },
+        ],
+        password: [
+            {
+                required: true,
+                trigger: 'blur',
+                message: t('login.message.password.required'),
+            },
+            {
+                min: 6,
+                message: t('login.message.password.min'),
+                trigger: 'blur',
+            },
+        ],
+    };
+});
 
 /**
  * 检查输入大小写
@@ -69,11 +95,11 @@ const toggleTheme = () => {
                 <el-image :src="loginImage" style="width: 210px; height: 210px"/>
             </div>
             <div class="login-box">
-                <!--     :rules="loginRules"           -->
                 <el-form
                     ref="loginFormRef"
                     :model="loginData"
                     class="login-form"
+                    :rules="loginRules"
                 >
                     <!-- 用户名 -->
                     <el-form-item prop="username">
