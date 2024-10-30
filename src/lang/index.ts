@@ -1,4 +1,4 @@
-import enLocale from './package/en';
+import enLocale from '@/lang/package/en';
 import zhCnLocale from '@/lang/package/zh-cn';
 import {createI18n} from 'vue-i18n';
 import type {App} from 'vue';
