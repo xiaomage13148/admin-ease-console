@@ -1,3 +1,5 @@
+import {VNode} from 'vue';
+
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
 export type SuccessMessageMode = ErrorMessageMode;
 
@@ -41,4 +43,11 @@ export interface Result<T = any> {
     type: 'success' | 'error' | 'warning';
     message: string;
     result: T;
+}
+
+export interface ElMessageOptions {
+    message: string | VNode | Function;
+    plain?: boolean;
+    dangerouslyUseHTMLString?: boolean;
+    duration?: number;
 }
