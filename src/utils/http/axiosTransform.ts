@@ -1,12 +1,18 @@
 import {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
 import {RequestOptions, Result} from '@/types/axios';
 
+/**
+ * 创建Axios实例选项
+ */
 export interface CreateAxiosOptions extends AxiosRequestConfig {
     authenticationScheme?: string;
     transform?: AxiosTransform;
     requestOptions?: RequestOptions;
 }
 
+/**
+ * Axios数据转换
+ */
 export abstract class AxiosTransform {
     /**
      * A function that is called before a request is sent. It can modify the request configuration as needed.

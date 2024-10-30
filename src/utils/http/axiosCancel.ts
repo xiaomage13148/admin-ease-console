@@ -41,7 +41,17 @@ export class AxiosCanceler {
         }
     }
 
+    /**
+     * 添加请求
+     * @param config
+     */
     public addPending(config: AxiosRequestConfig): void {
-
+        this.removePending(config);
+        const url = getPendingUrl(config);
+        const controller = new AbortController();
+        config.signal = config.signal || controller.signal;
+        if (!pendingMap.has(url)) {
+            pendingMap.set(url, controller);
+        }
     }
 }
