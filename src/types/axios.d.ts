@@ -46,7 +46,7 @@ export interface Result<T = any> {
 }
 
 export interface ElMessageOptions {
-    message: string | VNode | Function;
+    message: string | VNode;
     plain?: boolean;
     dangerouslyUseHTMLString?: boolean;
     duration?: number;
