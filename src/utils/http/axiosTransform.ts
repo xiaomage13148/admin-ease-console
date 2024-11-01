@@ -15,8 +15,7 @@ export interface CreateAxiosOptions extends AxiosRequestConfig {
  */
 export abstract class AxiosTransform {
     /**
-     * A function that is called before a request is sent. It can modify the request configuration as needed.
-     * 在发送请求之前调用的函数。它可以根据需要修改请求配置。
+     * @description: 在发送请求之前调用的函数。它可以根据需要修改请求配置。
      */
     beforeRequestHook?: (config: AxiosRequestConfig, options: RequestOptions) => AxiosRequestConfig;
 
@@ -26,7 +25,7 @@ export abstract class AxiosTransform {
     transformResponseHook?: (res: AxiosResponse<Result>, options: RequestOptions) => any;
 
     /**
-     * TODO 不知道能做什么处理
+     * TODO 不知道能做什么处理 , 这个处理方式存在问题
      * @description: 请求失败处理
      */
     requestCatchHook?: (e: Error, options: RequestOptions) => Promise<any>;
