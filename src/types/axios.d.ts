@@ -50,4 +50,5 @@ export interface ElMessageOptions {
     plain?: boolean;
     dangerouslyUseHTMLString?: boolean;
     duration?: number;
+    type: 'success' | 'warning' | 'info' | 'error';
 }

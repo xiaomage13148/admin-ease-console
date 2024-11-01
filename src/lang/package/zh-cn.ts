@@ -83,6 +83,7 @@ const zhCnLocale: LocaleMessages = {
         errMsg503: '服务不可用，服务器暂时过载或维护!',
         errMsg504: '网络超时!',
         errMsg505: 'http版本不支持该请求!',
+        defaultMessage: '默认提示',
     },
 };
 
