@@ -4,18 +4,17 @@ export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
 export type SuccessMessageMode = ErrorMessageMode;
 
 export interface RequestOptions {
-    // Splicing request parameters to url
+    // 拼接请求参数到url
     joinParamsToUrl?: boolean;
-    // Format request parameter time
+    // 格式化请求参数时间
     formatDate?: boolean;
-    // Whether to process the request result
+    // 是否处理请求结果
     isTransformResponse?: boolean;
-    // Whether to return native response headers
-    // For example: use this attribute when you need to get the response headers
+    // 是否返回原生响应头
     isReturnNativeResponse?: boolean;
     // Whether to join url
     joinPrefix?: boolean;
-    // Interface address, use the default apiUrl if you leave it blank
+    // 接口地址，不填则使用默认的apiUrl
     apiUrl?: string;
     // 请求拼接路径
     urlPrefix?: string;

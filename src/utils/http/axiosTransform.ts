@@ -26,6 +26,7 @@ export abstract class AxiosTransform {
     transformResponseHook?: (res: AxiosResponse<Result>, options: RequestOptions) => any;
 
     /**
+     * TODO 不知道能做什么处理
      * @description: 请求失败处理
      */
     requestCatchHook?: (e: Error, options: RequestOptions) => Promise<any>;
@@ -51,5 +52,5 @@ export abstract class AxiosTransform {
     /**
      * @description: 请求之后的拦截器错误处理
      */
-    responseInterceptorsCatch?: (axiosInstance: AxiosInstance, error: Error) => void;
+    responseInterceptorsCatch?: (axiosInstance: AxiosInstance, error: Error) => Promise<never>;
 }

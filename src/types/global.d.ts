@@ -24,4 +24,6 @@ declare global {
     interface LocaleMessages {
         [key: string]: any;
     }
+
+    declare type Recordable<T = any> = Record<string, T>
 }

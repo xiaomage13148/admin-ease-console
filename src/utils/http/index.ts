@@ -1,9 +1,11 @@
-import {AxiosTransform} from '@/utils/http/axiosTransform';
-import {AxiosResponse} from 'axios';
+import {AxiosTransform, CreateAxiosOptions} from '@/utils/http/axiosTransform';
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
 import {RequestOptions, Result} from '@/types/axios';
-import {ResultEnum} from '@/enums/HttpEnum';
-import {isEmpty, isNull, isUndefined} from '@/utils/common/is';
+import {RequestEnum, ResultEnum} from '@/enums/HttpEnum';
+import {isEmpty, isNull, isString, isUndefined} from '@/utils/common/is';
 import {useElMessage} from '@/hooks/useElMessage';
+import {useI18n} from 'vue-i18n';
+import {formatRequestDate, joinTimestamp, setObjToUrlParams} from '@/utils/http/help';
 
 const {createDefaultMessage} = useElMessage();
 
@@ -73,5 +75,135 @@ const transform: AxiosTransform = {
         throw new Error(errorMsg || t('api.apiRequestFailed'));
     },
 
+    /**
+     * 在发送请求之前调用的函数
+     * @param config
+     * @param options
+     */
+    beforeRequestHook(config: AxiosRequestConfig, options: RequestOptions): AxiosRequestConfig {
+        const {
+            apiUrl,
+            joinPrefix,
+            joinParamsToUrl,
+            formatDate,
+            joinTime = true,
+            urlPrefix,
+        } = options;
 
+        if (joinPrefix) {
+            config.url = `${urlPrefix}${config.url}`;
+        }
+
+        if (apiUrl && isString(apiUrl)) {
+            config.url = `${apiUrl}${config.url}`;
+        }
+
+        const params = config.params || {};
+        const data = config.data || false;
+
+        // 格式化时间参数
+        formatDate && data && !isString(data) && formatRequestDate(data);
+        if (config.method?.toUpperCase() === RequestEnum.GET) {
+            if (!isString(params)) {
+                // 对于不是字符串，将时间戳_t添加到属性中
+                config.params = Object.assign(params || {}, joinTimestamp(joinTime, false));
+            } else {
+                // 是字符串
+                // 兼容restful风格
+                config.url = config.url + params + `${joinTimestamp(joinTime, true)}`;
+                config.params = undefined;
+            }
+        } else {
+            if (!isString(params)) {
+                formatDate && formatRequestDate(params);
+                if (Reflect.has(config, 'data') && config.data && (Object.keys(config.data).length > 0 || config.data instanceof FormData)) {
+                    // 检查data是否存在
+                    config.data = data;
+                    config.params = params;
+                } else {
+                    // 非GET请求如果没有提供data，则将params视为data
+                    config.data = params;
+                    config.params = undefined;
+                }
+                if (joinParamsToUrl) {
+                    // 拼接请求参数到url中
+                    config.url = setObjToUrlParams(config.url as string, Object.assign({}, config.params, config.data));
+                }
+            } else {
+                // 兼容restful风格
+                config.url = config.url + params;
+                config.params = undefined;
+            }
+        }
+        return config;
+    },
+
+
+    /**
+     * 请求之前的拦截器
+     * @param config
+     * @param options
+     */
+    requestInterceptors(config: InternalAxiosRequestConfig, options: CreateAxiosOptions): InternalAxiosRequestConfig {
+        // TODO 待完善
+        return config;
+    },
+
+    /**
+     * 请求之后的拦截器
+     * @param res
+     */
+    responseInterceptors(res: AxiosResponse<any>): AxiosResponse<any> {
+        return res;
+    },
+
+    /**
+     * 请求之前的拦截器错误处理
+     * @param error
+     */
+    requestInterceptorsCatch(error: Error): void {
+    },
+
+    /**
+     * 请求之后的拦截器错误处理
+     * TODO error: any类型推断需要完善
+     * @param axiosInstance
+     * @param error
+     */
+    responseInterceptorsCatch(axiosInstance: AxiosInstance, error: any): Promise<never> {
+        const {t} = useI18n();
+        const {response, code, message, config} = error;
+        const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
+        const msg: string = response?.data?.error?.message ?? '';
+        const err: string = error?.toString?.() ?? '';
+        let errMessage = '';
+
+        if (axios.isCancel(error)) {
+            return Promise.reject(error);
+        }
+
+        try {
+            if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
+                errMessage = t('sys.api.apiTimeoutMessage');
+            }
+            if (err?.includes('Network Error')) {
+                errMessage = t('sys.api.networkExceptionMsg');
+            }
+
+            if (errMessage) {
+                if (errorMessageMode === 'modal') {
+                    // TODO 待完善
+                } else if (errorMessageMode === 'message') {
+                    createDefaultMessage({message: errMessage, type: 'error'});
+                }
+                return Promise.reject(error);
+            }
+        } catch (error) {
+            throw new Error(error as unknown as string);
+        }
+
+        // TODO 检查状态checkStatus
+
+        return Promise.reject(error);
+    },
 };
