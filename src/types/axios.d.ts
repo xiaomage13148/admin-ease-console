@@ -44,6 +44,9 @@ export interface Result<T = any> {
     result: T;
 }
 
+/**
+ * ElMessage配置选项
+ */
 export interface ElMessageOptions {
     message: string | VNode;
     plain?: boolean;
