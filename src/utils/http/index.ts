@@ -183,10 +183,10 @@ const transform: AxiosTransform = {
 
         try {
             if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
-                errMessage = t('sys.api.apiTimeoutMessage');
+                errMessage = t('api.apiTimeoutMessage');
             }
             if (err?.includes('Network Error')) {
-                errMessage = t('sys.api.networkExceptionMsg');
+                errMessage = t('api.networkExceptionMsg');
             }
 
             if (errMessage) {
