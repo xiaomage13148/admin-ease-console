@@ -10,6 +10,70 @@ import {formatRequestDate, joinTimestamp, setObjToUrlParams} from '@/utils/http/
 const {createDefaultMessage} = useElMessage();
 
 const transform: AxiosTransform = {
+
+    /**
+     * 在发送请求之前调用的函数
+     * @param config
+     * @param options
+     */
+    beforeRequestHook(config: AxiosRequestConfig, options: RequestOptions): AxiosRequestConfig {
+        const {
+            apiUrl,
+            joinPrefix,
+            joinParamsToUrl,
+            formatDate,
+            joinTime = true,
+            urlPrefix,
+        } = options;
+
+        if (joinPrefix) {
+            config.url = `${urlPrefix}${config.url}`;
+        }
+
+        if (apiUrl && isString(apiUrl)) {
+            config.url = `${apiUrl}${config.url}`;
+        }
+
+        const params = config.params || {};
+        const data = config.data || false;
+
+        // 格式化时间参数
+        formatDate && data && !isString(data) && formatRequestDate(data);
+        if (config.method?.toUpperCase() === RequestEnum.GET) {
+            if (!isString(params)) {
+                // 对于不是字符串，将时间戳_t添加到属性中
+                config.params = Object.assign(params || {}, joinTimestamp(joinTime, false));
+            } else {
+                // 是字符串
+                // 兼容restful风格
+                config.url = config.url + params + `${joinTimestamp(joinTime, true)}`;
+                config.params = undefined;
+            }
+        } else {
+            if (!isString(params)) {
+                formatDate && formatRequestDate(params);
+                if (Reflect.has(config, 'data') && config.data && (Object.keys(config.data).length > 0 || config.data instanceof FormData)) {
+                    // 检查data是否存在
+                    config.data = data;
+                    config.params = params;
+                } else {
+                    // 非GET请求如果没有提供data，则将params视为data
+                    config.data = params;
+                    config.params = undefined;
+                }
+                if (joinParamsToUrl) {
+                    // 拼接请求参数到url中
+                    config.url = setObjToUrlParams(config.url as string, Object.assign({}, config.params, config.data));
+                }
+            } else {
+                // 兼容restful风格
+                config.url = config.url + params;
+                config.params = undefined;
+            }
+        }
+        return config;
+    },
+
     /**
      * 处理响应数据
      * @param res
@@ -76,70 +140,7 @@ const transform: AxiosTransform = {
     },
 
     /**
-     * 在发送请求之前调用的函数
-     * @param config
-     * @param options
-     */
-    beforeRequestHook(config: AxiosRequestConfig, options: RequestOptions): AxiosRequestConfig {
-        const {
-            apiUrl,
-            joinPrefix,
-            joinParamsToUrl,
-            formatDate,
-            joinTime = true,
-            urlPrefix,
-        } = options;
-
-        if (joinPrefix) {
-            config.url = `${urlPrefix}${config.url}`;
-        }
-
-        if (apiUrl && isString(apiUrl)) {
-            config.url = `${apiUrl}${config.url}`;
-        }
-
-        const params = config.params || {};
-        const data = config.data || false;
-
-        // 格式化时间参数
-        formatDate && data && !isString(data) && formatRequestDate(data);
-        if (config.method?.toUpperCase() === RequestEnum.GET) {
-            if (!isString(params)) {
-                // 对于不是字符串，将时间戳_t添加到属性中
-                config.params = Object.assign(params || {}, joinTimestamp(joinTime, false));
-            } else {
-                // 是字符串
-                // 兼容restful风格
-                config.url = config.url + params + `${joinTimestamp(joinTime, true)}`;
-                config.params = undefined;
-            }
-        } else {
-            if (!isString(params)) {
-                formatDate && formatRequestDate(params);
-                if (Reflect.has(config, 'data') && config.data && (Object.keys(config.data).length > 0 || config.data instanceof FormData)) {
-                    // 检查data是否存在
-                    config.data = data;
-                    config.params = params;
-                } else {
-                    // 非GET请求如果没有提供data，则将params视为data
-                    config.data = params;
-                    config.params = undefined;
-                }
-                if (joinParamsToUrl) {
-                    // 拼接请求参数到url中
-                    config.url = setObjToUrlParams(config.url as string, Object.assign({}, config.params, config.data));
-                }
-            } else {
-                // 兼容restful风格
-                config.url = config.url + params;
-                config.params = undefined;
-            }
-        }
-        return config;
-    },
-
-    /**
-     * 请求之前的拦截器
+     * 请求拦截器
      * @param config
      * @param options
      */
@@ -149,7 +150,7 @@ const transform: AxiosTransform = {
     },
 
     /**
-     * 请求之后的拦截器
+     * 响应拦截器
      * @param res
      */
     responseInterceptors(res: AxiosResponse<any>): AxiosResponse<any> {
@@ -157,14 +158,14 @@ const transform: AxiosTransform = {
     },
 
     /**
-     * 请求之前的拦截器错误处理
+     * 请求拦截器错误处理
      * @param error
      */
     requestInterceptorsCatch(error: Error): void {
     },
 
     /**
-     * 请求之后的拦截器错误处理
+     * 响应拦截器错误处理
      * TODO error: any类型推断需要完善
      * @param axiosInstance
      * @param error
