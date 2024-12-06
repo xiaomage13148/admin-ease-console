@@ -1,13 +1,19 @@
 import {AxiosTransform, CreateAxiosOptions} from '@/utils/http/axiosTransform';
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
 import {RequestOptions, Result} from '@/types/axios';
-import {RequestEnum, ResultEnum} from '@/enums/HttpEnum';
+import {ContentTypeEnum, RequestEnum, ResultEnum} from '@/enums/HttpEnum';
 import {isEmpty, isNull, isString, isUndefined} from '@/utils/common/is';
 import {useElMessage} from '@/hooks/useElMessage';
 import {useI18n} from 'vue-i18n';
 import {formatRequestDate, joinTimestamp, setObjToUrlParams} from '@/utils/http/help';
+import {checkStatus} from '@/utils/http/checkStatus';
+import {MAxios} from '@/utils/http/MAxios';
+import {deepMerge} from '@/utils/common';
+import {clone} from 'unocss';
+import {useGlobSetting} from '@/hooks/useGlobSetting';
 
 const {createDefaultMessage} = useElMessage();
+const globSetting = useGlobSetting();
 
 const transform: AxiosTransform = {
 
@@ -166,7 +172,6 @@ const transform: AxiosTransform = {
 
     /**
      * 响应拦截器错误处理
-     * TODO error: any类型推断需要完善
      * @param axiosInstance
      * @param error
      */
@@ -202,8 +207,60 @@ const transform: AxiosTransform = {
             throw new Error(error as unknown as string);
         }
 
-        // TODO 检查状态checkStatus
+        // 检查响应状态码
+        checkStatus(error?.response?.status, msg, errorMessageMode);
+
+        // TODO 添加自动重试机制
 
         return Promise.reject(error);
     },
 };
+
+function createAxios(opt?: Partial<CreateAxiosOptions>): MAxios {
+    return new MAxios(
+        deepMerge(
+            {
+                authenticationScheme: '',
+                timeout: 10 * 1000,
+                // 基础接口地址
+                // baseURL: globSetting.apiUrl,
+                headers: {'Content-Type': ContentTypeEnum.JSON},
+                // 如果是form-data格式
+                // headers: { 'Content-Type': ContentTypeEnum.FORM_URLENCODED },
+                // 数据处理方式
+                transform: clone(transform),
+                // 配置项
+                requestOptions: {
+                    // 默认将prefix 添加到url
+                    joinPrefix: true,
+                    // 是否返回原生响应头 比如：需要获取响应头时使用该属性
+                    isReturnNativeResponse: false,
+                    // 需要对返回数据进行处理
+                    isTransformResponse: true,
+                    // post请求的时候添加参数到url
+                    joinParamsToUrl: false,
+                    // 格式化提交参数时间
+                    formatDate: true,
+                    // 消息提示类型
+                    errorMessageMode: 'message',
+                    // 接口地址
+                    apiUrl: globSetting.apiUrl,
+                    // 接口拼接地址
+                    urlPrefix: globSetting.urlPrefix,
+                    //  是否加入时间戳
+                    joinTime: true,
+                    // 忽略重复请求
+                    ignoreCancelToken: true,
+                    // 是否携带token
+                    withToken: true,
+                    retryRequest: {
+                        isOpenRetry: true,
+                        count: 5,
+                        waitTime: 100,
+                    },
+                },
+            },
+            opt || {},
+        ),
+    );
+}

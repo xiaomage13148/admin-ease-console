@@ -48,7 +48,6 @@ export function checkStatus(status: number,
             errMessage = t('api.errMsg505');
             break;
         default:
-            errMessage = t('api.defaultMessage');
     }
 
     if (errMessage) {

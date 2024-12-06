@@ -10,6 +10,18 @@ declare global {
         title: string,
         // 版本
         version: string,
+        // 端口
+        port: number,
+        // 基础Url
+        baseApi: string,
+        // 代理Url
+        apiUrl: string,
+        // websocket端口
+        wsEndpoint: string,
+        // mock服务
+        mockDevServer: boolean,
+        // url前缀
+        urlPrefix: string,
         // 语言
         language: string,
         // 主题
