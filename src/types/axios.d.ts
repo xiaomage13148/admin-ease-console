@@ -1,4 +1,5 @@
 import {VNode} from 'vue';
+import {JSX} from 'vue/jsx-runtime';
 
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
 export type SuccessMessageMode = ErrorMessageMode;
@@ -53,4 +54,14 @@ export interface ElMessageOptions {
     dangerouslyUseHTMLString?: boolean;
     duration?: number;
     type: 'success' | 'warning' | 'info' | 'error';
+}
+
+/**
+ * ElDialog配置选项
+ */
+export interface ElDialogOptions {
+    // 对话框标题
+    title?: string,
+    // 对话框内容
+    content?: string | (() => JSX.Element),
 }
