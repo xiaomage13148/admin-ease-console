@@ -1,71 +1,3 @@
-<script setup lang="ts">
-import type {LoginData} from '@/api/auth';
-// 导入 login.scss 文件
-import '@/styles/login.scss';
-import {useSettingsStore} from '@/stores';
-import {ThemeEnum} from '@/enums/ThemeEnum';
-
-const settingsStore = useSettingsStore();
-const {t} = useI18n();
-
-const logo = ref(new URL(`../../assets/logo.png`, import.meta.url).href);
-const loginImage = ref(new URL(`../../assets/images/login-image.svg`, import.meta.url).href);
-// 是否大写锁定
-const isCapslock = ref(false);
-// 登录数据结构
-const loginData = ref<LoginData>({
-    username: 'admin',
-    password: '123456',
-});
-// 深色模式
-const isDark = ref(settingsStore.theme === ThemeEnum.DARK);
-
-// 校验规则
-const loginRules = computed(() => {
-    return {
-        username: [
-            {
-                required: true,
-                trigger: 'blur',
-                message: t('login.message.username.required'),
-            },
-        ],
-        password: [
-            {
-                required: true,
-                trigger: 'blur',
-                message: t('login.message.password.required'),
-            },
-            {
-                min: 6,
-                message: t('login.message.password.min'),
-                trigger: 'blur',
-            },
-        ],
-    };
-});
-
-/**
- * 检查输入大小写
- * @param event
- */
-const checkCapslock = (event: KeyboardEvent) => {
-    // 防止浏览器密码自动填充时报错
-    if (event instanceof KeyboardEvent) {
-        isCapslock.value = event.getModifierState('CapsLock');
-    }
-};
-
-/**
- * 切换主题
- */
-const toggleTheme = () => {
-    const newTheme = settingsStore.theme === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
-    settingsStore.changeTheme(newTheme);
-};
-
-</script>
-
 <template>
     <div class="login-container">
         <div class="flex-x-between absolute-lt w-full p-2">
@@ -152,6 +84,74 @@ const toggleTheme = () => {
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+import type {LoginData} from '@/api/auth';
+// 导入 login.scss 文件
+import '@/styles/login.scss';
+import {useSettingsStore} from '@/stores';
+import {ThemeEnum} from '@/enums/ThemeEnum';
+
+const settingsStore = useSettingsStore();
+const {t} = useI18n();
+
+const logo = ref(new URL(`../../assets/logo.png`, import.meta.url).href);
+const loginImage = ref(new URL(`../../assets/images/login-image.svg`, import.meta.url).href);
+// 是否大写锁定
+const isCapslock = ref(false);
+// 登录数据结构
+const loginData = ref<LoginData>({
+    username: 'admin',
+    password: '123456',
+});
+// 深色模式
+const isDark = ref(settingsStore.theme === ThemeEnum.DARK);
+
+// 校验规则
+const loginRules = computed(() => {
+    return {
+        username: [
+            {
+                required: true,
+                trigger: 'blur',
+                message: t('login.message.username.required'),
+            },
+        ],
+        password: [
+            {
+                required: true,
+                trigger: 'blur',
+                message: t('login.message.password.required'),
+            },
+            {
+                min: 6,
+                message: t('login.message.password.min'),
+                trigger: 'blur',
+            },
+        ],
+    };
+});
+
+/**
+ * 检查输入大小写
+ * @param event
+ */
+const checkCapslock = (event: KeyboardEvent) => {
+    // 防止浏览器密码自动填充时报错
+    if (event instanceof KeyboardEvent) {
+        isCapslock.value = event.getModifierState('CapsLock');
+    }
+};
+
+/**
+ * 切换主题
+ */
+const toggleTheme = () => {
+    const newTheme = settingsStore.theme === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
+    settingsStore.changeTheme(newTheme);
+};
+
+</script>
 
 <style lang="scss" scoped>
 
