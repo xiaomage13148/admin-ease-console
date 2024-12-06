@@ -11,8 +11,10 @@ import {MAxios} from '@/utils/http/MAxios';
 import {deepMerge} from '@/utils/common';
 import {clone} from 'unocss';
 import {useGlobSetting} from '@/hooks/useGlobSetting';
+import {useElDialog} from '@/hooks/useElDialog';
 
 const {createDefaultMessage} = useElMessage();
+const {openDialog} = useElDialog();
 const globSetting = useGlobSetting();
 
 const transform: AxiosTransform = {
@@ -112,7 +114,7 @@ const transform: AxiosTransform = {
                 successMsg = t('api.operationSuccess');
             }
             if (options.successMessageMode === 'modal') {
-                // TODO 待完善
+                openDialog({content: successMsg});
             } else if (options.successMessageMode === 'message') {
                 createDefaultMessage({message: successMsg, type: 'success'});
             }
@@ -137,7 +139,7 @@ const transform: AxiosTransform = {
         // }
 
         if (options.errorMessageMode === 'modal') {
-            // TODO 待完善
+            openDialog({content: errorMsg});
         } else if (options.errorMessageMode === 'message') {
             createDefaultMessage({message: errorMsg, type: 'error'});
         }
@@ -197,7 +199,7 @@ const transform: AxiosTransform = {
 
             if (errMessage) {
                 if (errorMessageMode === 'modal') {
-                    // TODO 待完善
+                    openDialog({content: errMessage});
                 } else if (errorMessageMode === 'message') {
                     createDefaultMessage({message: errMessage, type: 'error'});
                 }

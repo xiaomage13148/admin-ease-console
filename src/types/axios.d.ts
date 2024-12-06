@@ -64,4 +64,10 @@ export interface ElDialogOptions {
     title?: string,
     // 对话框内容
     content?: string | (() => JSX.Element),
+    // 对话框宽度
+    width?: string,
+    // 确定回调
+    onConfirm?: () => void,
+    // 取消回调
+    onCancel?: () => void
 }
