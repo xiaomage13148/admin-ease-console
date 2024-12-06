@@ -76,6 +76,7 @@
                         type="primary"
                         size="large"
                         class="w-full"
+                        @click.prevent="login"
                     >
                         {{ $t('login.login') }}
                     </el-button>
@@ -106,6 +107,8 @@ const loginData = ref<LoginData>({
 });
 // 深色模式
 const isDark = ref(settingsStore.theme === ThemeEnum.DARK);
+// 登录表单Ref
+const loginFormRef = useTemplateRef('loginFormRef');
 
 // 校验规则
 const loginRules = computed(() => {
@@ -150,6 +153,15 @@ const toggleTheme = () => {
     const newTheme = settingsStore.theme === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
     settingsStore.changeTheme(newTheme);
 };
+
+/**
+ * 登录
+ */
+const login = () => {
+    // loginFormRef?.validate((valid, fields) => {
+    //
+    // })
+}
 
 </script>
 
