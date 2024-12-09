@@ -92,6 +92,7 @@ import type {LoginData} from '@/api/auth';
 import '@/styles/login.scss';
 import {useSettingsStore} from '@/stores';
 import {ThemeEnum} from '@/enums/ThemeEnum';
+import {ElMessage, FormInstance} from 'element-plus';
 
 const settingsStore = useSettingsStore();
 const {t} = useI18n();
@@ -108,7 +109,7 @@ const loginData = ref<LoginData>({
 // 深色模式
 const isDark = ref(settingsStore.theme === ThemeEnum.DARK);
 // 登录表单Ref
-const loginFormRef = useTemplateRef('loginFormRef');
+const loginFormRef = useTemplateRef<FormInstance>('loginFormRef');
 
 // 校验规则
 const loginRules = computed(() => {
@@ -158,10 +159,14 @@ const toggleTheme = () => {
  * 登录
  */
 const login = () => {
-    // loginFormRef?.validate((valid, fields) => {
-    //
-    // })
-}
+    loginFormRef?.value?.validate((valid, fields) => {
+        if (valid) {
+
+        } else {
+            ElMessage.error({message: t('login.validateError')});
+        }
+    });
+};
 
 </script>
 

@@ -27,6 +27,7 @@ const enLocale: LocaleMessages = {
             },
         },
         otherLoginMethods: 'Other login methods',
+        validateError: 'Invalid input. Please double-check each field carefully.',
     },
     // 导航栏国际化
     navbar: {

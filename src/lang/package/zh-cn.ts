@@ -27,6 +27,7 @@ const zhCnLocale: LocaleMessages = {
             },
         },
         otherLoginMethods: '其他登录方式',
+        validateError: '输入有误，请仔细检查每个字段。',
     },
     // 导航栏国际化
     navbar: {
