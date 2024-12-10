@@ -266,3 +266,5 @@ function createAxios(opt?: Partial<CreateAxiosOptions>): MAxios {
         ),
     );
 }
+
+export const defHttp = createAxios();
