@@ -1,6 +1,6 @@
 import {AxiosTransform, CreateAxiosOptions} from '@/utils/http/axiosTransform';
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
-import {RequestOptions, Result} from '@/types/axios';
+import {RequestOptions, BaseResp} from '@/types/axios';
 import {ContentTypeEnum, RequestEnum, ResultEnum} from '@/enums/HttpEnum';
 import {isEmpty, isNull, isString, isUndefined} from '@/utils/common/is';
 import {useElMessage} from '@/hooks/useElMessage';
@@ -87,7 +87,7 @@ const transform: AxiosTransform = {
      * @param res
      * @param options
      */
-    transformResponseHook(res: AxiosResponse<Result>, options: RequestOptions): any {
+    transformResponseHook(res: AxiosResponse<BaseResp>, options: RequestOptions): any {
         const {t} = useI18n();
         const {isTransformResponse, isReturnNativeResponse} = options;
         // 是否返回原生响应头 不做处理
@@ -101,13 +101,13 @@ const transform: AxiosTransform = {
             return res.data;
         }
 
-        const {data} = res;
-        if (!data) {
+        const {data: resData} = res;
+        if (!resData) {
             throw new Error(t('api.apiRequestFailed'));
         }
-        const {code, result, message} = data;
+        const {status, data, message} = resData;
         // 判断接口的业务响应是否成功
-        const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
+        const hasSuccess = resData && Reflect.has(resData, 'status') && status === ResultEnum.SUCCESS;
         if (hasSuccess) {
             let successMsg: string = message;
             if (isNull(successMsg) || isUndefined(successMsg) || isEmpty(successMsg)) {
@@ -118,14 +118,14 @@ const transform: AxiosTransform = {
             } else if (options.successMessageMode === 'message') {
                 createDefaultMessage({message: successMsg, type: 'success'});
             }
-            return result;
+            return data;
         }
 
         let errorMsg = message;
         // // 在此处根据自己项目的实际情况对不同的code执行不同的操作
         // // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
         // let timeoutMsg = '';
-        // switch (code) {
+        // switch (status) {
         //     case ResultEnum.TIMEOUT:
         //         timeoutMsg = t('sys.api.timeoutMessage');
         //         const userStore = useUserStoreWithOut();

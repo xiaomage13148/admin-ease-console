@@ -38,11 +38,10 @@ export interface RetryRequest {
     waitTime: number;
 }
 
-export interface Result<T = any> {
-    code: number;
-    type: 'success' | 'error' | 'warning';
+export interface BaseResp<T = any> {
+    status: number;
     message: string;
-    result: T;
+    data: T;
 }
 
 /**

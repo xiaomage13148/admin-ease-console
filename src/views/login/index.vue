@@ -87,12 +87,12 @@
 </template>
 
 <script setup lang="ts">
-import type {LoginData} from '@/api/auth';
 // 导入 login.scss 文件
 import '@/styles/login.scss';
 import {useSettingsStore} from '@/stores';
 import {ThemeEnum} from '@/enums/ThemeEnum';
 import {ElMessage, FormInstance} from 'element-plus';
+import {LoginData} from '@/types/auth';
 
 const settingsStore = useSettingsStore();
 const {t} = useI18n();

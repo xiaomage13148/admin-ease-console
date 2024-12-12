@@ -1,9 +1,17 @@
-/**
- * 登录请求参数
- */
-export interface LoginData {
-    // 用户名
-    username: string,
-    // 密码
-    password: string
+import {LoginParams} from '@/types/auth';
+import {defHttp} from '@/utils/http';
+
+enum Api {
+    login = '/login'
 }
+
+/**
+ * 登录API
+ * @param params
+ */
+export const loginApi = (params: LoginParams) => {
+    return defHttp.post({
+        url: Api.login,
+        params,
+    });
+};

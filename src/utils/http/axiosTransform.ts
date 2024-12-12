@@ -1,5 +1,5 @@
 import {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
-import {RequestOptions, Result} from '@/types/axios';
+import {RequestOptions, BaseResp} from '@/types/axios';
 
 /**
  * 创建Axios实例选项
@@ -22,7 +22,7 @@ export abstract class AxiosTransform {
     /**
      * @description: 处理响应数据
      */
-    transformResponseHook?: (res: AxiosResponse<Result>, options: RequestOptions) => any;
+    transformResponseHook?: (res: AxiosResponse<BaseResp>, options: RequestOptions) => any;
 
     /**
      * TODO 不知道能做什么处理 , 这个处理方式存在问题
