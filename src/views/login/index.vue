@@ -93,6 +93,7 @@ import {useSettingsStore} from '@/stores';
 import {ThemeEnum} from '@/enums/ThemeEnum';
 import {ElMessage, FormInstance} from 'element-plus';
 import {LoginData} from '@/types/auth';
+import {loginApi} from '@/api/auth';
 
 const settingsStore = useSettingsStore();
 const {t} = useI18n();
@@ -161,7 +162,13 @@ const toggleTheme = () => {
 const login = () => {
     loginFormRef?.value?.validate((valid, fields) => {
         if (valid) {
-
+            loginApi({...loginData.value}).then(res => {
+                // TODO ---->打印res , 日期: 2024/12/16
+                console.log(`---->print [res] , current date: [${new Date().toString()}]`, res);
+            }).catch(err => {
+                // TODO ---->打印err , 日期: 2024/12/16
+                console.log(`---->print [err] , current date: [${new Date().toString()}]`, err);
+            });
         } else {
             ElMessage.error({message: t('login.validateError')});
         }

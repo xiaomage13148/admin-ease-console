@@ -24,8 +24,5 @@ export enum RequestEnum {
  * 响应结果枚举
  */
 export enum ResultEnum {
-    SUCCESS = 0,
-    ERROR = -1,
-    TIMEOUT = 401,
-    TYPE = 'success',
+    SUCCESS = '00000',
 }

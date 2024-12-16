@@ -15,7 +15,7 @@ export interface RequestOptions {
     isReturnNativeResponse?: boolean;
     // Whether to join url
     joinPrefix?: boolean;
-    // 接口地址，不填则使用默认的apiUrl
+    // 基础地址
     apiUrl?: string;
     // 请求拼接路径
     urlPrefix?: string;
@@ -39,7 +39,7 @@ export interface RetryRequest {
 }
 
 export interface BaseResp<T = any> {
-    status: number;
+    status: string;
     message: string;
     data: T;
 }

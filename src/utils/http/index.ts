@@ -4,7 +4,6 @@ import {RequestOptions, BaseResp} from '@/types/axios';
 import {ContentTypeEnum, RequestEnum, ResultEnum} from '@/enums/HttpEnum';
 import {isEmpty, isNull, isString, isUndefined} from '@/utils/common/is';
 import {useElMessage} from '@/hooks/useElMessage';
-import {useI18n} from 'vue-i18n';
 import {formatRequestDate, joinTimestamp, setObjToUrlParams} from '@/utils/http/help';
 import {checkStatus} from '@/utils/http/checkStatus';
 import {MAxios} from '@/utils/http/MAxios';
@@ -12,10 +11,12 @@ import {deepMerge} from '@/utils/common';
 import {clone} from 'unocss';
 import {useGlobSetting} from '@/hooks/useGlobSetting';
 import {useElDialog} from '@/hooks/useElDialog';
+import i18n from '@/lang';
 
 const {createDefaultMessage} = useElMessage();
 const {openDialog} = useElDialog();
 const globSetting = useGlobSetting();
+const {t} = i18n.global;
 
 const transform: AxiosTransform = {
 
@@ -88,7 +89,6 @@ const transform: AxiosTransform = {
      * @param options
      */
     transformResponseHook(res: AxiosResponse<BaseResp>, options: RequestOptions): any {
-        const {t} = useI18n();
         const {isTransformResponse, isReturnNativeResponse} = options;
         // 是否返回原生响应头 不做处理
         if (isReturnNativeResponse) {
@@ -113,9 +113,9 @@ const transform: AxiosTransform = {
             if (isNull(successMsg) || isUndefined(successMsg) || isEmpty(successMsg)) {
                 successMsg = t('api.operationSuccess');
             }
-            if (options.successMessageMode === 'modal') {
+            if (options?.successMessageMode === 'modal') {
                 openDialog({content: successMsg});
-            } else if (options.successMessageMode === 'message') {
+            } else if (options?.successMessageMode === 'message') {
                 createDefaultMessage({message: successMsg, type: 'success'});
             }
             return data;
@@ -178,7 +178,6 @@ const transform: AxiosTransform = {
      * @param error
      */
     responseInterceptorsCatch(axiosInstance: AxiosInstance, error: any): Promise<never> {
-        const {t} = useI18n();
         const {response, code, message, config} = error;
         const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
         const msg: string = response?.data?.error?.message ?? '';
@@ -245,11 +244,12 @@ function createAxios(opt?: Partial<CreateAxiosOptions>): MAxios {
                     formatDate: true,
                     // 消息提示类型
                     errorMessageMode: 'message',
-                    // 接口地址
-                    apiUrl: globSetting.apiUrl,
+                    successMessageMode: 'none',
+                    // 基础地址
+                    apiUrl: globSetting.baseApi,
                     // 接口拼接地址
                     urlPrefix: globSetting.urlPrefix,
-                    //  是否加入时间戳
+                    // 是否加入时间戳
                     joinTime: true,
                     // 忽略重复请求
                     ignoreCancelToken: true,
