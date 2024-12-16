@@ -91,7 +91,7 @@
 import '@/styles/login.scss';
 import {useSettingsStore} from '@/stores';
 import {ThemeEnum} from '@/enums/ThemeEnum';
-import {ElMessage, FormInstance} from 'element-plus';
+import {FormInstance} from 'element-plus';
 import {LoginData} from '@/types/auth';
 import {loginApi} from '@/api/auth';
 

@@ -1,5 +1,4 @@
 import {ElMessageOptions} from '@/types/axios';
-import {ElMessage} from 'element-plus';
 import i18n from '@/lang';
 
 const {t} = i18n.global;

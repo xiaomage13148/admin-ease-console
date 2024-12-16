@@ -1,6 +1,8 @@
 import {ElDialogOptions} from '@/types/axios';
 import {createVNode, defineComponent, reactive, render} from 'vue';
 import {ElButton, ElDialog} from 'element-plus';
+import 'element-plus/theme-chalk/el-button.css';
+import 'element-plus/theme-chalk/el-dialog.css';
 
 
 export const useElDialog = () => {

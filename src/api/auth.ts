@@ -13,5 +13,5 @@ export const loginApi = (params: LoginParams): Promise<string> => {
     return defHttp.post<string>({
         url: Api.login,
         params,
-    }, {successMessageMode: 'message'});
+    }, {successMessageMode: 'modal'});
 };
