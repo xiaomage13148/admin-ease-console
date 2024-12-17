@@ -86,6 +86,13 @@ const zhCnLocale: LocaleMessages = {
         errMsg505: 'http版本不支持该请求!',
         defaultMessage: '默认提示',
     },
+    // 对话框
+    dialog: {
+        defaultTitle: '标题',
+        defaultContent: '默认内容',
+    },
+    cancel: '取消',
+    confirm: '确定',
 };
 
 export default zhCnLocale;

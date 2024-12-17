@@ -1,9 +1,12 @@
 import {ElDialogOptions} from '@/types/axios';
 import {createVNode, defineComponent, reactive, render} from 'vue';
 import {ElButton, ElDialog} from 'element-plus';
+// 不是通过自动导入的，需要手动导入样式
 import 'element-plus/theme-chalk/el-button.css';
 import 'element-plus/theme-chalk/el-dialog.css';
+import i18n from '@/lang';
 
+const {t} = i18n.global;
 
 export const useElDialog = () => {
     const openDialog = (options: ElDialogOptions) => {
@@ -33,17 +36,17 @@ export const useElDialog = () => {
                 return () => (
                     <ElDialog
                         v-model={state.visible}
-                        title={options.title || '提示'}
+                        title={options.title || t('dialog.defaultTitle')}
                         width={options.width || '50%'}
                         onClose={handleClose}
                     >
                         {{
-                            default: () => typeof options.content === 'function' ? options.content() : options.content || '默认内容',
+                            default: () => typeof options.content === 'function' ? options.content() : options.content || t('dialog.defaultContent'),
                             footer: () => (
                                 // "noImplicitAny": false, 在tsconfig.json中设置避免隐含any类型时报错
                                 <div>
-                                    <ElButton onClick={handleCancel}>取消</ElButton>
-                                    <ElButton type="primary" onClick={handleConfirm}>确定</ElButton>
+                                    <ElButton onClick={handleCancel}>{t('cancel')}</ElButton>
+                                    <ElButton type="primary" onClick={handleConfirm}>{t('confirm')}</ElButton>
                                 </div>
                             ),
                         }}

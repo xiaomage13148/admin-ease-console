@@ -86,6 +86,13 @@ const enLocale: LocaleMessages = {
         errMsg505: 'The http version does not support the request!',
         defaultMessage: 'Placeholder text',
     },
+    // 对话框
+    dialog: {
+        defaultTitle: 'title',
+        defaultContent: 'Default content',
+    },
+    cancel: 'cancel',
+    confirm: 'confirm',
 };
 
 export default enLocale;
