@@ -1,7 +1,11 @@
 import {ErrorMessageMode} from '@/types/axios';
 import {useElMessage} from '@/hooks/useElMessage';
+import {useElDialog} from '@/hooks/useElDialog';
+import {useUserStore} from '@/stores';
 
 const {createDefaultMessage} = useElMessage();
+const {openDialog} = useElDialog();
+const userStore = useUserStore();
 
 export function checkStatus(status: number,
                             msg: string,
@@ -15,7 +19,7 @@ export function checkStatus(status: number,
             break;
         case 401:
             errMessage = t('api.errMsg401');
-            // TODO 未授权需要做登出操作
+            userStore.logout().then();
             break;
         case 403:
             errMessage = t('api.errMsg403');
@@ -52,7 +56,7 @@ export function checkStatus(status: number,
 
     if (errMessage) {
         if (errorMessageMode === 'modal') {
-
+            openDialog({content: errMessage});
         } else if (errorMessageMode === 'message') {
             createDefaultMessage({message: errMessage, type: 'error'});
         }
