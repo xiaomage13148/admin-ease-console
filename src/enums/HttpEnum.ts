@@ -24,5 +24,15 @@ export enum RequestEnum {
  * 响应结果枚举
  */
 export enum ResultEnum {
+    // 响应成功
     SUCCESS = '00000',
+    // 未授权前缀
+    UNAUTHORIZED_PREFIX = 'A',
+}
+
+/**
+ * Token key 枚举
+ */
+export enum TokenKeyEnum {
+    TOKEN = 'Token'
 }

@@ -1,6 +1,6 @@
 import {AxiosTransform, CreateAxiosOptions} from '@/utils/http/axiosTransform';
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
-import {RequestOptions, BaseResp} from '@/types/axios';
+import {BaseResp, RequestOptions} from '@/types/axios';
 import {ContentTypeEnum, RequestEnum, ResultEnum} from '@/enums/HttpEnum';
 import {isEmpty, isNull, isString, isUndefined} from '@/utils/common/is';
 import {useElMessage} from '@/hooks/useElMessage';
@@ -12,11 +12,15 @@ import {clone} from 'unocss';
 import {useGlobSetting} from '@/hooks/useGlobSetting';
 import {useElDialog} from '@/hooks/useElDialog';
 import i18n from '@/lang';
+import {useTokenStore, useUserStore} from '@/stores';
+import {isUnauthorized} from '@/utils/common/stringJudge';
 
 const {createDefaultMessage} = useElMessage();
 const {openDialog} = useElDialog();
 const globSetting = useGlobSetting();
 const {t} = i18n.global;
+const tokenStore = useTokenStore();
+const userStore = useUserStore();
 
 const transform: AxiosTransform = {
 
@@ -122,21 +126,16 @@ const transform: AxiosTransform = {
         }
 
         let errorMsg = message;
-        // // 在此处根据自己项目的实际情况对不同的code执行不同的操作
-        // // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
-        // let timeoutMsg = '';
-        // switch (status) {
-        //     case ResultEnum.TIMEOUT:
-        //         timeoutMsg = t('sys.api.timeoutMessage');
-        //         const userStore = useUserStoreWithOut();
-        //         // 被动登出，带redirect地址
-        //         userStore.logout(false);
-        //         break;
-        //     default:
-        //         if (message) {
-        //             timeoutMsg = message;
-        //         }
-        // }
+        // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
+        // 判断是否未授权
+        if (isUnauthorized(status)) {
+            userStore.logout().then();
+        }
+
+        // TODO 对业务异常做处理
+        switch (status) {
+
+        }
 
         if (options.errorMessageMode === 'modal') {
             openDialog({content: errorMsg});
@@ -153,7 +152,10 @@ const transform: AxiosTransform = {
      * @param options
      */
     requestInterceptors(config: InternalAxiosRequestConfig, options: CreateAxiosOptions): InternalAxiosRequestConfig {
-        // TODO 待完善
+        const token = tokenStore.token;
+        if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
+            (config as Recordable).headers.Authorization = options.authenticationScheme ? `${options.authenticationScheme} ${token}` : token;
+        }
         return config;
     },
 
