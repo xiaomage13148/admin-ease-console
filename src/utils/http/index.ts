@@ -1,7 +1,7 @@
 import {AxiosTransform, CreateAxiosOptions} from '@/utils/http/axiosTransform';
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
 import {BaseResp, RequestOptions} from '@/types/axios';
-import {ContentTypeEnum, RequestEnum, ResultEnum} from '@/enums/HttpEnum';
+import {ContentTypeEnum, RequestEnum, ResultEnum, TokenKeyEnum} from '@/enums/HttpEnum';
 import {isEmpty, isNull, isString, isUndefined} from '@/utils/common/is';
 import {useElMessage} from '@/hooks/useElMessage';
 import {formatRequestDate, joinTimestamp, setObjToUrlParams} from '@/utils/http/help';
@@ -12,15 +12,13 @@ import {clone} from 'unocss';
 import {useGlobSetting} from '@/hooks/useGlobSetting';
 import {useElDialog} from '@/hooks/useElDialog';
 import i18n from '@/lang';
-import {useTokenStore, useUserStore} from '@/stores';
+import {useTokenStoreHook, useUserStoreHook} from '@/stores';
 import {isUnauthorized} from '@/utils/common/stringJudge';
 
 const {createDefaultMessage} = useElMessage();
 const {openDialog} = useElDialog();
 const globSetting = useGlobSetting();
 const {t} = i18n.global;
-const tokenStore = useTokenStore();
-const userStore = useUserStore();
 
 const transform: AxiosTransform = {
 
@@ -129,6 +127,7 @@ const transform: AxiosTransform = {
         // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
         // 判断是否未授权
         if (isUnauthorized(status)) {
+            const userStore = useUserStoreHook();
             userStore.logout().then();
         }
 
@@ -152,7 +151,8 @@ const transform: AxiosTransform = {
      * @param options
      */
     requestInterceptors(config: InternalAxiosRequestConfig, options: CreateAxiosOptions): InternalAxiosRequestConfig {
-        const token = tokenStore.token;
+        const tokenStore = useTokenStoreHook();
+        const token = tokenStore.getToken();
         if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
             (config as Recordable).headers.Authorization = options.authenticationScheme ? `${options.authenticationScheme} ${token}` : token;
         }
@@ -223,7 +223,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>): MAxios {
     return new MAxios(
         deepMerge(
             {
-                authenticationScheme: '',
+                authenticationScheme: TokenKeyEnum.TOKEN,
                 timeout: 10 * 1000,
                 // 基础接口地址
                 // baseURL: globSetting.apiUrl,

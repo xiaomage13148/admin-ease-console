@@ -1,16 +1,16 @@
 import {ErrorMessageMode} from '@/types/axios';
 import {useElMessage} from '@/hooks/useElMessage';
 import {useElDialog} from '@/hooks/useElDialog';
-import {useUserStore} from '@/stores';
+import {useUserStoreHook} from '@/stores';
 
 const {createDefaultMessage} = useElMessage();
 const {openDialog} = useElDialog();
-const userStore = useUserStore();
 
 export function checkStatus(status: number,
                             msg: string,
                             errorMessageMode: ErrorMessageMode = 'message'): void {
     const {t} = useI18n();
+    const userStore = useUserStoreHook();
     let errMessage: string = '';
 
     switch (status) {

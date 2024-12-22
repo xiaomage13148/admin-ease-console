@@ -89,13 +89,14 @@
 <script setup lang="ts">
 // 导入 login.scss 文件
 import '@/styles/login.scss';
-import {useSettingsStore} from '@/stores';
+import {useSettingsStore, useTokenStore} from '@/stores';
 import {ThemeEnum} from '@/enums/ThemeEnum';
 import {FormInstance} from 'element-plus';
 import {LoginData} from '@/types/auth';
 import {loginApi} from '@/api/auth';
 
 const settingsStore = useSettingsStore();
+const tokenStore = useTokenStore();
 const {t} = useI18n();
 
 const logo = ref(new URL(`../../assets/logo.png`, import.meta.url).href);
@@ -163,11 +164,8 @@ const login = () => {
     loginFormRef?.value?.validate((valid, fields) => {
         if (valid) {
             loginApi({...loginData.value}).then(res => {
-                // TODO ---->打印res , 日期: 2024/12/16
-                console.log(`---->print [res] , current date: [${new Date().toString()}]`, res);
+                tokenStore.setToken(res);
             }).catch(err => {
-                // TODO ---->打印err , 日期: 2024/12/16
-                console.log(`---->print [err] , current date: [${new Date().toString()}]`, err);
             });
         } else {
             ElMessage.error({message: t('login.validateError')});

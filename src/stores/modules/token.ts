@@ -1,4 +1,5 @@
 import {TokenKeyEnum} from '@/enums/HttpEnum';
+import {store} from '@/stores';
 
 export const useTokenStore = defineStore('token', () => {
     const token = useStorage(TokenKeyEnum.TOKEN, '', localStorage);
@@ -18,9 +19,16 @@ export const useTokenStore = defineStore('token', () => {
         token.value = '';
     };
 
+    const getToken = (): string => {
+        return token.value;
+    };
+
     return {
         token,
         setToken,
         clearToken,
+        getToken,
     };
 });
+
+export const useTokenStoreHook = () => useTokenStore(store);

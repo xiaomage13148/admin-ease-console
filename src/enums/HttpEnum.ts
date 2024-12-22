@@ -34,5 +34,5 @@ export enum ResultEnum {
  * Token key 枚举
  */
 export enum TokenKeyEnum {
-    TOKEN = 'Token'
+    TOKEN = 'admin-token'
 }
