@@ -8,7 +8,7 @@ const {t} = i18n.global;
  */
 const defaultOptions: ElMessageOptions = {
     message: t('api.defaultMessage'),
-    type: 'info',
+    type: 'success',
     plain: false,
     dangerouslyUseHTMLString: false,
     duration: 3000,
@@ -21,7 +21,7 @@ type DefaultMessageOptions = Pick<ElMessageOptions, 'message' | 'type'>
  * @param options
  */
 const createDefaultMessage = (options: DefaultMessageOptions) => {
-    ElMessage.success({
+    ElMessage({
         ...defaultOptions,
         ...options,
     });

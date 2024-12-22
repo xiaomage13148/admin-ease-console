@@ -127,6 +127,8 @@ const transform: AxiosTransform = {
         // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
         // 判断是否未授权
         if (isUnauthorized(status)) {
+            // TODO ---->打印是否用户未授权 , 日期: 2024/12/22
+            console.log(`---->打印是否用户未授权 , 当前时间是: ${new Date().toString()}` , '未授权');
             const userStore = useUserStoreHook();
             userStore.logout().then();
         }
@@ -139,7 +141,7 @@ const transform: AxiosTransform = {
         if (options.errorMessageMode === 'modal') {
             openDialog({content: errorMsg});
         } else if (options.errorMessageMode === 'message') {
-            createDefaultMessage({message: errorMsg, type: 'error'});
+            createDefaultMessage({message: errorMsg, type: 'warning'});
         }
 
         throw new Error(errorMsg || t('api.apiRequestFailed'));
