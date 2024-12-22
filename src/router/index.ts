@@ -1,6 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import type {App} from 'vue';
-import Login from '@/views/login/index.vue';
+
+// 路由懒加载
+const Login = () => import('@/views/login/index.vue');
 
 const router = createRouter({
     history: createWebHistory(),
