@@ -2,8 +2,8 @@
 <template>
   <el-menu
     ref="menuRef"
-    :unique-opened="false"
-    :collapse-transition="false"
+    :unique-opened="true"
+    :collapse-transition="true"
   >
 <!--    <SidebarMenuItem-->
 <!--      v-for="route in []"-->

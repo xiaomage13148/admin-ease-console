@@ -7,13 +7,18 @@
               <NavbarAction />
             </div>-->
         <!-- layout left || layout top -->
-        <template>
-            <SidebarLogo/>
-            <el-scrollbar>
-                <SidebarMenu :menu-list="[]" base-path=""/>
-            </el-scrollbar>
-            <!--      <NavbarAction v-if="layout === LayoutEnum.TOP" />-->
-        </template>
+        <!--        <template>-->
+        <!--            <SidebarLogo/>-->
+        <!--            <el-scrollbar>-->
+        <!--                <SidebarMenu :menu-list="[]" base-path=""/>-->
+        <!--            </el-scrollbar>-->
+        <!--            &lt;!&ndash;      <NavbarAction v-if="layout === LayoutEnum.TOP" />&ndash;&gt;-->
+        <!--        </template>-->
+
+        <SidebarLogo/>
+        <el-scrollbar>
+            <SidebarMenu :menu-list="[]" base-path=""/>
+        </el-scrollbar>
     </div>
 </template>
 

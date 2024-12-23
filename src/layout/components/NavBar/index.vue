@@ -7,6 +7,7 @@
 <!--        @toggle-click="toggleSideBar"-->
 <!--      />-->
 <!--      <breadcrumb />-->
+        导航栏面包屑
     </div>
     <!-- 导航栏右侧 -->
     <NavbarAction />

@@ -3,6 +3,7 @@ import type {App} from 'vue';
 
 // 路由懒加载
 const Login = () => import('@/views/login/index.vue');
+const Layout = () => import('@/layout/index.vue');
 
 const router = createRouter({
     history: createWebHistory(),
@@ -10,9 +11,7 @@ const router = createRouter({
         {
             path: '/',
             name: '/',
-            redirect: to => {
-                return {path: '/login'};
-            },
+            component: Layout,
         },
 
         {
