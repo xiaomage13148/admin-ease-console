@@ -98,6 +98,8 @@ export default defineConfig(({mode}: ConfigEnv): UserConfig => {
                     ElementPlusResolver({importStyle: 'sass'}),
                     // 自动注册图标组件
                     IconsResolver({
+                        // 格式 {prefix}-{collection}-{icon}
+                        prefix: 'i',
                         // element-plus图标库，其他图标库 https://icon-sets.iconify.design/
                         enabledCollections: ['ep'],
                     }),

@@ -14,6 +14,7 @@ const router = createRouter({
                 return {path: '/login'};
             },
         },
+
         {
             path: '/login',
             name: 'login',
