@@ -2,11 +2,11 @@
     <div class="logo-container">
         <transition enter-active-class="animate__animated animate__fadeInLeft">
             <router-link v-if="collapse" class="wh-full flex-center" to="/">
-                <img v-if="settingStore.sidebarLogo" :src="logo" class="logo-image" alt="logo.png"/>
+                <img v-if="settingsStore.sidebarLogo" :src="logo" class="logo-image" alt="logo.png"/>
             </router-link>
 
             <router-link v-else class="wh-full flex-center" to="/">
-                <img v-if="settingStore.sidebarLogo" :src="logo" class="logo-image" alt="logo.png"/>
+                <img v-if="settingsStore.sidebarLogo" :src="logo" class="logo-image" alt="logo.png"/>
                 <span class="logo-title"> {{ $t('title') }}</span>
             </router-link>
         </transition>
@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import {useSettingsStore} from '@/stores';
 
-const settingStore = useSettingsStore();
+const settingsStore = useSettingsStore();
 const {t} = useI18n();
 defineProps({
     collapse: {

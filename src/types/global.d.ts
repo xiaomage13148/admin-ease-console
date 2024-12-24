@@ -44,4 +44,17 @@ declare global {
     }
 
     declare type Recordable<T = any> = Record<string, T>
+
+    /**
+     * 侧边栏
+     */
+    interface Sidebar {
+        opened: boolean,
+        withoutAnimation: false
+    }
+
+    /**
+     * ElMenu菜单展示模式
+     */
+    declare type ElMenuMode = 'horizontal' | 'vertical'
 }

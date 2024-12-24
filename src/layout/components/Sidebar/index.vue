@@ -1,28 +1,29 @@
 <template>
-    <div :class="{ 'has-logo': true }">
+    <div :class="{ 'has-logo': sidebarLogo }">
         <!-- layout mix-->
-        <!--    <div class="flex w-full" v-if="layout == LayoutEnum.MIX">
-              <SidebarLogo v-if="sidebarLogo" :collapse="!appStore.sidebar.opened" />
-              <SidebarMixTopMenu class="flex-1" />
-              <NavbarAction />
-            </div>-->
+        <div class="flex w-full" v-if="layout === LayoutEnum.MIX">
+            <SidebarLogo v-if="sidebarLogo" :collapse="!settingsStore.sidebar.opened"/>
+            <!--            <SidebarMixTopMenu class="flex-1"/>-->
+            <NavbarAction/>
+        </div>
         <!-- layout left || layout top -->
-        <!--        <template>-->
-        <!--            <SidebarLogo/>-->
-        <!--            <el-scrollbar>-->
-        <!--                <SidebarMenu :menu-list="[]" base-path=""/>-->
-        <!--            </el-scrollbar>-->
-        <!--            &lt;!&ndash;      <NavbarAction v-if="layout === LayoutEnum.TOP" />&ndash;&gt;-->
-        <!--        </template>-->
-
-        <SidebarLogo :collapse="true"/>
-        <el-scrollbar>
-            <SidebarMenu :menu-list="[]" base-path=""/>
-        </el-scrollbar>
+        <template v-else>
+            <SidebarLogo v-if="sidebarLogo" :collapse="!settingsStore.sidebar.opened"/>
+            <el-scrollbar>
+                <SidebarMenu :menu-list="[]" base-path=""/>
+            </el-scrollbar>
+            <NavbarAction v-if="layout === LayoutEnum.TOP"/>
+        </template>
     </div>
 </template>
 
 <script setup lang="ts">
+import {useSettingsStore} from '@/stores';
+import {LayoutEnum} from '@/enums/LayoutEnum';
+
+const settingsStore = useSettingsStore();
+const sidebarLogo = computed(() => settingsStore.sidebarLogo);
+const layout = computed(() => settingsStore.layout);
 </script>
 
 <style lang="scss" scoped>

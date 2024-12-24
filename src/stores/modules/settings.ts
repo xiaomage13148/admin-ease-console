@@ -5,6 +5,8 @@ import {toggleDarkMode} from '@/utils/theme/theme';
 import {ThemeEnum} from '@/enums/ThemeEnum';
 import {useGlobSetting} from '@/hooks/useGlobSetting';
 import {LayoutEnum} from '@/enums/LayoutEnum';
+import SidebarLogo from '@/layout/components/Sidebar/components/SidebarLogo.vue';
+import {SidebarStatusEnum} from '@/enums/SidebarStatusEnum';
 
 const globSetting = useGlobSetting();
 
@@ -17,6 +19,13 @@ export const useSettingsStore = defineStore('setting', () => {
     const layout = useStorage('layout', globSetting.layout);
     // 侧边栏Logo
     const sidebarLogo = useStorage('sidebarLogo', globSetting.sidebarLogo);
+    // 侧边栏状态
+    const sidebarLogoStatus = useStorage('sidebarLogoStatus', SidebarStatusEnum.CLOSED);
+    // 侧边栏
+    const sidebar = ref<Sidebar>({
+        opened: sidebarLogoStatus.value === SidebarStatusEnum.OPENED,
+        withoutAnimation: false,
+    });
 
     // 监听主题变化
     watch(
@@ -40,6 +49,6 @@ export const useSettingsStore = defineStore('setting', () => {
     };
 
     return {
-        themeColor, theme, changeTheme, layout, changeLayout, sidebarLogo, changeSidebarLogo,
+        themeColor, theme, changeTheme, layout, changeLayout, sidebarLogo, changeSidebarLogo, sidebarLogoStatus, sidebar,
     };
 });
