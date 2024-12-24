@@ -4,6 +4,7 @@ import {watch} from 'vue';
 import {toggleDarkMode} from '@/utils/theme/theme';
 import {ThemeEnum} from '@/enums/ThemeEnum';
 import {useGlobSetting} from '@/hooks/useGlobSetting';
+import {LayoutEnum} from '@/enums/LayoutEnum';
 
 const globSetting = useGlobSetting();
 
@@ -12,6 +13,10 @@ export const useSettingsStore = defineStore('setting', () => {
     const themeColor = useStorage<string>('themeColor', globSetting.themeColor);
     // 主题
     const theme = useStorage<string>('theme', globSetting.theme);
+    // 菜单布局
+    const layout = useStorage('layout', globSetting.layout);
+    // 侧边栏Logo
+    const sidebarLogo = useStorage('sidebarLogo', globSetting.sidebarLogo);
 
     // 监听主题变化
     watch(
@@ -22,12 +27,19 @@ export const useSettingsStore = defineStore('setting', () => {
         {immediate: true},
     );
 
-
-    function changeTheme(val: string) {
+    const changeTheme = (val: ThemeEnum): void => {
         theme.value = val;
-    }
+    };
+
+    const changeLayout = (val: LayoutEnum): void => {
+        layout.value = val;
+    };
+
+    const changeSidebarLogo = (val: boolean): void => {
+        sidebarLogo.value = val;
+    };
 
     return {
-        themeColor, theme, changeTheme,
+        themeColor, theme, changeTheme, layout, changeLayout, sidebarLogo, changeSidebarLogo,
     };
 });

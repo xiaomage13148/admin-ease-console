@@ -1,4 +1,6 @@
 import type {ThemeEnum} from '@/enums/ThemeEnum';
+import {LayoutEnum} from '@/enums/LayoutEnum';
+import {b} from 'vite/dist/node/types.d-aGj9QkWt';
 
 declare global {
 
@@ -27,7 +29,11 @@ declare global {
         // 主题
         theme: ThemeEnum,
         // 主题颜色
-        themeColor: string
+        themeColor: string,
+        // 菜单布局
+        layout: LayoutEnum,
+        // 侧边栏Logo
+        sidebarLogo: boolean
     }
 
     /**

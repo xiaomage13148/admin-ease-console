@@ -15,7 +15,7 @@
         <!--            &lt;!&ndash;      <NavbarAction v-if="layout === LayoutEnum.TOP" />&ndash;&gt;-->
         <!--        </template>-->
 
-        <SidebarLogo/>
+        <SidebarLogo :collapse="true"/>
         <el-scrollbar>
             <SidebarMenu :menu-list="[]" base-path=""/>
         </el-scrollbar>
