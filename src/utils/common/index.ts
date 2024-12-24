@@ -135,6 +135,11 @@ export type WithInstall<T> = T & {
 
 export type CustomComponent = Component & { displayName?: string };
 
+/**
+ * TODO 使得组件可以使用 app.use() 注册 待完善
+ * @param component
+ * @param alias
+ */
 export const withInstall = <T extends CustomComponent>(component: T, alias?: string) => {
     (component as Record<string, unknown>).install = (app: App) => {
         const compName = component.name || component.displayName;
@@ -146,3 +151,11 @@ export const withInstall = <T extends CustomComponent>(component: T, alias?: str
     };
     return component as WithInstall<T>;
 };
+
+/**
+ * 判断一个给定的路径字符串是否是一个外部链接（即指向外部资源的 URL，例如网页、电子邮件或电话链接）
+ * @param path
+ */
+export function isExternal(path: string) {
+    return /^(https?:|http?:|mailto:|tel:)/.test(path);
+}

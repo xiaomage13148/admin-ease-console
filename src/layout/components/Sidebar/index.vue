@@ -3,6 +3,8 @@
         <!-- layout mix-->
         <div class="flex w-full" v-if="layout === LayoutEnum.MIX">
             <SidebarLogo v-if="sidebarLogo" :collapse="!settingsStore.sidebar.opened"/>
+            <!--    TODO 侧边菜单栏 mix 模式完善 2024/12/24        -->
+
             <!--            <SidebarMixTopMenu class="flex-1"/>-->
             <NavbarAction/>
         </div>
