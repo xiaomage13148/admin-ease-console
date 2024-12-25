@@ -12,4 +12,5 @@ export * from './modules/app';
 export * from './modules/settings';
 export * from './modules/token';
 export * from './modules/user';
+export * from './modules/permission';
 export {store};

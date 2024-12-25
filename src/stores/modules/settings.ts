@@ -5,7 +5,6 @@ import {toggleDarkMode} from '@/utils/theme/theme';
 import {ThemeEnum} from '@/enums/ThemeEnum';
 import {useGlobSetting} from '@/hooks/useGlobSetting';
 import {LayoutEnum} from '@/enums/LayoutEnum';
-import SidebarLogo from '@/layout/components/Sidebar/components/SidebarLogo.vue';
 import {SidebarStatusEnum} from '@/enums/SidebarStatusEnum';
 
 const globSetting = useGlobSetting();
@@ -26,6 +25,8 @@ export const useSettingsStore = defineStore('setting', () => {
         opened: sidebarLogoStatus.value === SidebarStatusEnum.OPENED,
         withoutAnimation: false,
     });
+    // 顶部菜单激活路径
+    const activeTopMenuPath = useStorage('activeTopMenuPath', '');
 
     // 监听主题变化
     watch(
@@ -36,19 +37,46 @@ export const useSettingsStore = defineStore('setting', () => {
         {immediate: true},
     );
 
+    /**
+     * 改变主题
+     * @param val
+     */
     const changeTheme = (val: ThemeEnum): void => {
         theme.value = val;
     };
 
+    /**
+     * 改变布局
+     * @param val
+     */
     const changeLayout = (val: LayoutEnum): void => {
         layout.value = val;
     };
 
+    /**
+     * 改变侧边栏Logo
+     * @param val
+     */
     const changeSidebarLogo = (val: boolean): void => {
         sidebarLogo.value = val;
     };
 
+    /**
+     * 混合模式顶部切换
+     * @param val
+     */
+    const changeActiveTopMenuPath = (val: string): void => {
+        activeTopMenuPath.value = val;
+    };
+
     return {
-        themeColor, theme, changeTheme, layout, changeLayout, sidebarLogo, changeSidebarLogo, sidebarLogoStatus, sidebar,
+        themeColor,
+        theme,
+        layout,
+        sidebarLogo,
+        sidebarLogoStatus,
+        sidebar, activeTopMenuPath,
+
+        changeTheme, changeSidebarLogo, changeLayout, changeActiveTopMenuPath,
     };
 });
