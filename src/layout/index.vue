@@ -35,9 +35,9 @@
 
         <!-- 左侧和顶部布局 -->
         <div class="main-container">
-            <div>
-                <NavBar/>
-            </div>
+<!--            <div>-->
+<!--                <NavBar/>-->
+<!--            </div>-->
             <AppMain/>
             <!-- 返回顶部 -->
             <el-backtop target=".main-container">

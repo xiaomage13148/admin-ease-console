@@ -3,7 +3,7 @@
     <el-menu
         ref="menuRef"
         :default-active="currentRoute.path"
-        :collapse="!settingsStore.sidebar.opened"
+        :collapse="isCollapse"
         :background-color="variables['menu-background']"
         :text-color="variables['menu-text']"
         :active-text-color="variables['menu-active-text']"
@@ -53,6 +53,7 @@ const horizontal: ElMenuMode = 'horizontal';
 const vertical: ElMenuMode = 'vertical';
 // 菜单展示模式
 const mode = computed(() => settingsStore.layout === LayoutEnum.TOP ? horizontal : vertical);
+const isCollapse = computed(() => !settingsStore.sidebar.opened);
 // 菜单展开的回调
 const onMenuOpen = (index: string) => {
     expandedMenuIndexes.value.push(index);

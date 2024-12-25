@@ -20,7 +20,7 @@ export const useSettingsStore = defineStore('setting', () => {
     // 侧边栏Logo
     const sidebarLogo = useStorage('sidebarLogo', globSetting.sidebarLogo);
     // 侧边栏状态
-    const sidebarLogoStatus = useStorage('sidebarLogoStatus', SidebarStatusEnum.CLOSED);
+    const sidebarLogoStatus = useStorage('sidebarLogoStatus', SidebarStatusEnum.OPENED);
     // 侧边栏
     const sidebar = ref<Sidebar>({
         opened: sidebarLogoStatus.value === SidebarStatusEnum.OPENED,
