@@ -1,6 +1,6 @@
 <template>
     <div :class="{ 'has-logo': sidebarLogo }">
-        <!-- layout mix-->
+        <!-- TODO layout mix -->
         <div class="flex w-full" v-if="layout === LayoutEnum.MIX">
             <SidebarLogo v-if="sidebarLogo" :collapse="isCollapse"/>
             <SidebarMixTopMenu class="flex-1"/>

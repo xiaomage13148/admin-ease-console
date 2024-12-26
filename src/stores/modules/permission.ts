@@ -19,9 +19,21 @@ export const usePermissionStore = defineStore('permission', () => {
     //     });
     // };
 
+    /**
+     * 混合模式菜单下根据顶部菜单路径设置左侧菜单
+     * @param topMenuPath
+     */
+    const setMixLeftMenus = (topMenuPath: string) => {
+        const matchedItem = routes.value.find((item) => item.path === topMenuPath);
+        if (matchedItem && matchedItem.children) {
+            mixLeftMenus.value = matchedItem.children;
+        }
+    };
+
     return {
         routes,
         mixLeftMenus,
         // generateRoutes,
+        setMixLeftMenus,
     };
 });
