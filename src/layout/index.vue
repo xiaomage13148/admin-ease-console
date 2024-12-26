@@ -1,14 +1,16 @@
 <template>
     <div class="wh-full">
         <!-- 遮罩层 -->
-<!--        <div-->
-<!--            class="wh-full fixed-lt z-999 bg-black bg-opacity-30"-->
-<!--        ></div>-->
+        <div
+            v-if="isMobile && isOpenSidebar"
+            class="wh-full fixed-lt z-999 bg-black bg-opacity-30"
+            @click="handleOutsideClick"
+        ></div>
 
         <!-- 公用侧边栏 -->
         <Sidebar class="sidebar-container"/>
 
-        <!-- 混合布局 -->
+        <!-- layout mix -->
         <!--        <div v-if="layout === LayoutEnum.MIX" class="mix-container">
                     <div class="mix-container__left">
                         <SidebarMenu :menu-list="mixLeftMenus" :base-path="activeTopMenuPath"/>
@@ -33,11 +35,11 @@
                     </div>
                 </div>-->
 
-        <!-- 左侧和顶部布局 -->
+        <!-- layout left or top -->
         <div class="main-container">
-<!--            <div>-->
-<!--                <NavBar/>-->
-<!--            </div>-->
+            <!--            <div>-->
+            <!--                <NavBar/>-->
+            <!--            </div>-->
             <AppMain/>
             <!-- 返回顶部 -->
             <el-backtop target=".main-container">
@@ -48,7 +50,19 @@
 </template>
 
 <script setup lang="ts">
+import {useSettingsStore} from '@/stores';
+import {DeviceEnum} from '@/enums/DeviceEnum';
 
+const settingsStore = useSettingsStore();
+const isMobile = computed(() => settingsStore.device === DeviceEnum.MOBILE);
+const isOpenSidebar = computed(() => settingsStore.sidebar.opened);
+
+/**
+ * 遮罩层点击
+ */
+const handleOutsideClick = (): void => {
+    settingsStore.closeSidebar();
+};
 </script>
 
 <style lang="scss" scoped>

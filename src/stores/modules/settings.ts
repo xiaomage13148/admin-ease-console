@@ -19,14 +19,16 @@ export const useSettingsStore = defineStore('setting', () => {
     // 侧边栏Logo
     const sidebarLogo = useStorage('sidebarLogo', globSetting.sidebarLogo);
     // 侧边栏状态
-    const sidebarLogoStatus = useStorage('sidebarLogoStatus', SidebarStatusEnum.OPENED);
+    const sidebarStatus = useStorage('sidebarStatus', SidebarStatusEnum.OPENED);
     // 侧边栏
     const sidebar = ref<Sidebar>({
-        opened: sidebarLogoStatus.value === SidebarStatusEnum.OPENED,
+        opened: sidebarStatus.value === SidebarStatusEnum.OPENED,
         withoutAnimation: false,
     });
     // 顶部菜单激活路径
     const activeTopMenuPath = useStorage('activeTopMenuPath', '');
+    // 设备类型
+    const device = useStorage('device', globSetting.device);
 
     // 监听主题变化
     watch(
@@ -69,14 +71,30 @@ export const useSettingsStore = defineStore('setting', () => {
         activeTopMenuPath.value = val;
     };
 
+    /**
+     * 打开侧边栏
+     */
+    const openSidebar = (): void => {
+        sidebar.value.opened = true;
+        sidebarStatus.value = SidebarStatusEnum.OPENED;
+    };
+
+    /**
+     * 关闭侧边栏
+     */
+    const closeSidebar = (): void => {
+        sidebar.value.opened = false;
+        sidebarStatus.value = SidebarStatusEnum.CLOSED;
+    };
+
     return {
         themeColor,
         theme,
         layout,
         sidebarLogo,
-        sidebarLogoStatus,
-        sidebar, activeTopMenuPath,
+        sidebarLogoStatus: sidebarStatus,
+        sidebar, activeTopMenuPath, device,
 
-        changeTheme, changeSidebarLogo, changeLayout, changeActiveTopMenuPath,
+        changeTheme, changeSidebarLogo, changeLayout, changeActiveTopMenuPath, openSidebar, closeSidebar,
     };
 });

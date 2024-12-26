@@ -1,6 +1,7 @@
 import {LanguageEnum} from '@/enums/LanguageEnum';
 import {ThemeEnum} from '@/enums/ThemeEnum';
 import {LayoutEnum} from '@/enums/LayoutEnum';
+import {DeviceEnum} from '@/enums/DeviceEnum';
 
 export const useGlobSetting = (): Readonly<AppSettings> => {
     const {pkg} = __APP_INFO__;
@@ -27,6 +28,7 @@ export const useGlobSetting = (): Readonly<AppSettings> => {
         themeColor: '#4080FF',
         layout: LayoutEnum.LEFT,
         sidebarLogo: true,
+        device: DeviceEnum.DESKTOP,
     };
 
     return glob as Readonly<AppSettings>;

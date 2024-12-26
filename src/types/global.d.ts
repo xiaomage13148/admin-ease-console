@@ -1,6 +1,7 @@
 import type {ThemeEnum} from '@/enums/ThemeEnum';
 import {LayoutEnum} from '@/enums/LayoutEnum';
 import {b} from 'vite/dist/node/types.d-aGj9QkWt';
+import {DeviceEnum} from '@/enums/DeviceEnum';
 
 declare global {
 
@@ -33,7 +34,9 @@ declare global {
         // 菜单布局
         layout: LayoutEnum,
         // 侧边栏Logo
-        sidebarLogo: boolean
+        sidebarLogo: boolean,
+        // 设备类型
+        device: DeviceEnum
     }
 
     /**
