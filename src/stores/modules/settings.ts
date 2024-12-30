@@ -90,6 +90,14 @@ export const useSettingsStore = defineStore('setting', () => {
         sidebarStatus.value = SidebarStatusEnum.CLOSED;
     };
 
+    /**
+     * 切换侧边栏
+     */
+    const toggleSidebar = () => {
+        sidebar.value.opened = !sidebar.value.opened;
+        sidebarStatus.value = sidebar.value.opened ? SidebarStatusEnum.OPENED : SidebarStatusEnum.CLOSED;
+    };
+
     return {
         themeColor,
         theme,
@@ -98,6 +106,6 @@ export const useSettingsStore = defineStore('setting', () => {
         sidebarLogoStatus: sidebarStatus,
         sidebar, activeTopMenuPath, device, tagsView, fixedHeader,
 
-        changeTheme, changeSidebarLogo, changeLayout, changeActiveTopMenuPath, openSidebar, closeSidebar,
+        changeTheme, changeSidebarLogo, changeLayout, changeActiveTopMenuPath, openSidebar, closeSidebar, toggleSidebar,
     };
 });
