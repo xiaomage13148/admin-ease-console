@@ -29,6 +29,9 @@ export const useSettingsStore = defineStore('setting', () => {
     const activeTopMenuPath = useStorage('activeTopMenuPath', '');
     // 设备类型
     const device = useStorage('device', globSetting.device);
+    // 标签
+    const tagsView = useStorage<boolean>('tagsView', globSetting.tagsView);
+    const fixedHeader = useStorage('fixedHeader', globSetting.fixedHeader);
 
     // 监听主题变化
     watch(
@@ -93,7 +96,7 @@ export const useSettingsStore = defineStore('setting', () => {
         layout,
         sidebarLogo,
         sidebarLogoStatus: sidebarStatus,
-        sidebar, activeTopMenuPath, device,
+        sidebar, activeTopMenuPath, device, tagsView, fixedHeader,
 
         changeTheme, changeSidebarLogo, changeLayout, changeActiveTopMenuPath, openSidebar, closeSidebar,
     };

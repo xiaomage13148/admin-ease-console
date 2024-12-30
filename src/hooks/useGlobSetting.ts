@@ -29,6 +29,8 @@ export const useGlobSetting = (): Readonly<AppSettings> => {
         layout: LayoutEnum.LEFT,
         sidebarLogo: true,
         device: DeviceEnum.DESKTOP,
+        tagsView: true,
+        fixedHeader: true,
     };
 
     return glob as Readonly<AppSettings>;

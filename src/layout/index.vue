@@ -35,11 +35,11 @@
                     </div>
                 </div>-->
 
-        <!-- layout left or top -->
-        <div class="main-container">
-            <!--            <div>-->
-            <!--                <NavBar/>-->
-            <!--            </div>-->
+        <!-- 左侧和顶部布局 -->
+        <div :class="{hasTagsView: showTagView}" class="main-container">
+            <div :class="{ 'fixed-header': fixedHeader }">
+                <NavBar v-if="layout === LayoutEnum.LEFT"/>
+            </div>
             <AppMain/>
             <!-- 返回顶部 -->
             <el-backtop target=".main-container">
@@ -52,10 +52,18 @@
 <script setup lang="ts">
 import {useSettingsStore} from '@/stores';
 import {DeviceEnum} from '@/enums/DeviceEnum';
+import {LayoutEnum} from '@/enums/LayoutEnum';
 
 const settingsStore = useSettingsStore();
+// 是否是移动设备
 const isMobile = computed(() => settingsStore.device === DeviceEnum.MOBILE);
 const isOpenSidebar = computed(() => settingsStore.sidebar.opened);
+// 是否显示tagView
+const showTagView = computed(() => settingsStore.tagsView);
+// 是否固定Header
+const fixedHeader = computed(() => settingsStore.fixedHeader);
+// 布局
+const layout = computed(() => settingsStore.layout);
 
 /**
  * 遮罩层点击
