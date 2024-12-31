@@ -39,7 +39,9 @@ declare global {
         // 标签页
         tagsView: boolean,
         // 是否固定头部
-        fixedHeader: boolean
+        fixedHeader: boolean,
+        // 是否显示设置
+        showSettings: boolean
     }
 
     /**

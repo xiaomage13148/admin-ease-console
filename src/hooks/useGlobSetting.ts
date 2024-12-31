@@ -31,6 +31,7 @@ export const useGlobSetting = (): Readonly<AppSettings> => {
         device: DeviceEnum.DESKTOP,
         tagsView: true,
         fixedHeader: true,
+        showSettings: true,
     };
 
     return glob as Readonly<AppSettings>;
