@@ -31,9 +31,6 @@
 import {DeviceEnum} from '@/enums/DeviceEnum';
 import {useSettingsStore} from '@/stores';
 
-import UserProfile from './UserProfile.vue';
-import Notification from './Notification.vue';
-
 const settingsStore = useSettingsStore();
 
 const showSettings = computed(() => settingsStore.showSettings);
